@@ -22,8 +22,6 @@ dirty:
 	nix develop --command git diff --exit-code
 
 # Golang things
-run:
-	nix develop --command go run main.go
 
 install:
 	nix develop --command go install -ldflags "-X 'github.com/notedownorg/library/cmd.CommitHash=$(shell git rev-parse HEAD)'"

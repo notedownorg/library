@@ -17,8 +17,10 @@ package html
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/rainycape/unidecode"
 )
 
 // Extract the title from the HTML <head>
@@ -37,5 +39,11 @@ func ExtractTitle(url string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to parse HTML: %w", err)
 	}
-	return doc.Find("title").First().Text(), nil
+
+	title := strings.TrimSpace(unidecode.Unidecode(doc.Find("title").First().Text()))
+	if title == "" {
+		return "", fmt.Errorf("no title found")
+	}
+
+	return title, nil
 }
