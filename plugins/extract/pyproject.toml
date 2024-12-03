@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "extract"
+version = "0.1.0"
+description = ""
+authors = []
+
+[tool.poetry.dependencies]
+python = "3.12.7"
+grpcio = "1.68.0"
+protobuf = "5.28.3"
+requests = "2.32.3"
+langchain = "0.3.7"
+langchain-ollama = "0.2.0"
+ollama = "0.4.0"
+pydantic = "2.10.1"
+markdownify = "0.13.1"
+langchain-community = "0.3.7"
+mdformat = "0.7.19"
+transformers = "4.45.2"
+pydub = "0.25.1"
+librosa = "0.10.2.post1"
+torch = "2.5.1"
+yt-dlp = "2024.11.18"
+semantic-router = "0.0.72"
+langchain-huggingface = "0.1.2"
+langchain-experimental = "0.3.3"
+datasets = "3.1.0"
+einops = "0.8.0"
+wtpsplit = "2.1.1"
+
+[tool.poetry.group.dev.dependencies]
+pyinstaller = "6.11.1"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+server = "plugin:serve"
+cli = "cli:run"
+bundle = "pyinstaller:bundle"
