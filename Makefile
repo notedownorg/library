@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-hygiene: tidy gen format licenser
+hygiene: tidy format licenser
 
 # Shared things
 licenser:
@@ -31,8 +31,8 @@ install:
 tidy:
 	nix develop --command go mod tidy
 
-gen:
-	nix develop --command go generate ./...
+# gen:
+# 	nix develop --command go generate ./...
 
 test:
 	nix develop --command go test ./...
