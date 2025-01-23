@@ -68,7 +68,7 @@ def semantic_split(model: EmbeddingModels) -> Callable[[bytes], bytes]:
 
 def sat() -> Callable[[bytes], bytes]:
     def split(text: bytes) -> bytes:
-        sat = SaT("sat-12l")
+        sat = SaT("sat-12l-sm")
         paragraphs = []
         for paragraph in sat.split(text.decode("utf-8"), do_paragraph_segmentation=True):
             paragraphs.append(''.join(paragraph))

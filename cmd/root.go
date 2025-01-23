@@ -15,12 +15,12 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 	"strings"
 
+	"github.com/notedownorg/library/cmd/add"
+
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 var (
@@ -30,7 +30,7 @@ var (
 
 var rootCmd = &cobra.Command{
 	Use:     "library",
-	Short:   "A tool to store the media you consume to your notes",
+	Short:   "A tool for extracting Markdown from different media formats",
 	Version: version(),
 }
 
@@ -44,37 +44,7 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-}
-
-type config struct {
-	home string
-	root string
-}
-
-func loadConfig() config {
-	cfg := config{}
-	cfg.root = viper.GetString("dir")
-	if cfg.root == "" {
-		fmt.Println("Please set NOTEDOWN_DIR environment variable to the root of your Notedown workspace")
-		os.Exit(1)
-	}
-
-	home, err := os.UserHomeDir()
-	if err != nil {
-		fmt.Println("error getting user home directory:", err)
-		os.Exit(1)
-	}
-	cfg.home = home
-
-	return cfg
-}
-
-// initConfig reads in config file and ENV variables if set.
-func initConfig() {
-	viper.SetEnvPrefix("notedown")
-	viper.BindEnv("dir")
-	viper.AutomaticEnv() // read in environment variables that match
+	rootCmd.AddCommand(add.RootCmd)
 }
 
 func version() string {
