@@ -17,14 +17,14 @@ package notedown
 import (
 	"time"
 
-	"github.com/notedownorg/notedown/pkg/fileserver/reader"
-	"github.com/notedownorg/notedown/pkg/fileserver/writer"
+	"github.com/notedownorg/notedown/pkg/configuration"
 	"github.com/notedownorg/notedown/pkg/providers/source"
+	"github.com/notedownorg/notedown/pkg/workspace/reader"
+	"github.com/notedownorg/notedown/pkg/workspace/writer"
 )
 
 type SourceWriter interface {
-	NewSourceLocation(title string) string
-	CreateSource(path string, title string, format source.Format, url string, options ...source.SourceOption) error
+	CreateSource(title string, format source.Format, url string, options ...source.SourceOption) error
 }
 
 type Client interface {
@@ -35,16 +35,21 @@ type client struct {
 	*source.SourceClient
 }
 
-func NewClient(root string) (Client, error) {
-	read, err := reader.NewClient(root, "task")
+func NewClient(workspace *configuration.Workspace) (Client, error) {
+	cfg, err := configuration.EnsureWorkspaceConfiguration(workspace.Location)
 	if err != nil {
 		return nil, err
 	}
-	write := writer.NewClient(root)
+
+	read, err := reader.NewClient(workspace, "library")
+	if err != nil {
+		return nil, err
+	}
+	write := writer.NewClient(workspace)
 
 	sourceReaderChannel := make(chan reader.Event)
 	read.Subscribe(sourceReaderChannel, reader.WithInitialDocuments())
-	sourceClient := source.NewClient(write, sourceReaderChannel, source.WithInitialLoadWaiter(100*time.Millisecond))
+	sourceClient := source.NewClient(&cfg.Sources, write, sourceReaderChannel, source.WithInitialLoadWaiter(100*time.Millisecond))
 
 	return &client{
 		SourceClient: sourceClient,

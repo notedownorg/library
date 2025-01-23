@@ -1,4 +1,4 @@
-// Copyright 2024 Notedown Authors
+// Copyright 2025 Notedown Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package cmd
+package notedown
 
-import (
-	"github.com/spf13/cobra"
-)
+import "github.com/notedownorg/notedown/pkg/configuration"
 
-var addCmd = &cobra.Command{
-	Use:   "add",
-	Short: "Add a new item to your library",
-}
-
-func init() {
-	rootCmd.AddCommand(addCmd)
-}
+// Alias to improve readability
+var DefaultWorkspace = configuration.DefaultWorkspace

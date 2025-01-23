@@ -15,7 +15,7 @@
 from typing import Literal
 
 SpeechToTextModels = Literal[
-    "openai/whisper-large-v3"
+    "openai/whisper-large-v3-turbo"
 ]
 
 EmbeddingModels = Literal[
